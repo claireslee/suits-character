@@ -17,8 +17,9 @@
         margin: 0;
         padding: 40px 20px;
         color: #333;
+        box-sizing: border-box;
       }
-
+    
       h1 {
         color: white;
         font-size: 2.5rem;
@@ -28,7 +29,7 @@
         text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         letter-spacing: -0.5px;
       }
-
+    
       .question-container {
         display: none;
         margin: 20px auto;
@@ -41,6 +42,7 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.2);
         animation: slideIn 0.5s ease-out;
+        box-sizing: border-box;
       }
     
       @keyframes slideIn {
@@ -53,11 +55,11 @@
           transform: translateY(0);
         }
       }
-
+    
       .question-container.active {
         display: block;
       }
-
+    
       .question-container h2 {
         text-align: center;
         font-size: 1.8rem;
@@ -66,7 +68,7 @@
         color: #2c3e50;
         line-height: 1.4;
       }
-
+    
       .progress-bar {
         width: 100%;
         height: 6px;
@@ -75,20 +77,20 @@
         margin-bottom: 30px;
         overflow: hidden;
       }
-
+    
       .progress-fill {
         height: 100%;
         background: linear-gradient(90deg, #667eea, #764ba2);
         border-radius: 3px;
         transition: width 0.3s ease;
       }
-
+    
       button {
-        margin: 15px auto;
-        padding: 18px 30px;
+        margin: 12px auto;
+        padding: 16px 24px;
         display: block;
         width: 100%;
-        max-width: 500px;
+        max-width: 480px;
         font-size: 16px;
         font-weight: 500;
         border: 2px solid transparent;
@@ -99,8 +101,9 @@
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
+        box-sizing: border-box;
       }
-
+    
       button::before {
         content: '';
         position: absolute;
@@ -111,21 +114,21 @@
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
         transition: left 0.5s ease;
       }
-
+    
       button:hover::before {
         left: 100%;
       }
-
+    
       button:hover {
         transform: translateY(-2px);
         box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         border-color: rgba(255, 255, 255, 0.3);
       }
-
+    
       button:active {
         transform: translateY(0);
       }
-
+    
       #result {
         text-align: center;
         font-size: 24px;
@@ -134,47 +137,50 @@
         line-height: 1.6;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
-        padding: 40px;
+        padding: 30px 20px;
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         animation: fadeIn 0.8s ease-out;
+        max-width: 650px;
+        width: 100%;
+        box-sizing: border-box;
       }
-
+    
       @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.9); }
         to { opacity: 1; transform: scale(1); }
       }
-
+    
       #result h2 {
         font-size: 2.2rem;
         margin-bottom: 20px;
         color: white;
         font-weight: 700;
       }
-
+    
       #result img {
         border-radius: 15px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin-top: 20px;
       }
-
-      #result img:hover {
-        transform: scale(1.05);
-      }
-
+    
       #result p {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-style: italic;
         color: rgba(255, 255, 255, 0.9);
         margin-top: 20px;
       }
-
+    
       #quiz {
         width: 100%;
         max-width: 700px;
         padding: 0 10px;
+        box-sizing: border-box;
       }
-
+    
       .question-number {
         text-align: center;
         color: rgba(255, 255, 255, 0.8);
@@ -184,28 +190,45 @@
         text-transform: uppercase;
         letter-spacing: 1px;
       }
-
-      /* mobile */
+    
+      /* Extra Mobile-Friendly Tweaks */
       @media (max-width: 768px) {
+        body {
+          padding: 30px 15px;
+        }
+    
         h1 {
           font-size: 2rem;
         }
-        
+    
         .question-container {
-          padding: 30px 25px;
+          padding: 30px 20px;
           margin: 10px;
         }
-        
+    
         .question-container h2 {
           font-size: 1.5rem;
         }
-        
+    
         button {
-          padding: 15px 20px;
+          padding: 14px 18px;
           font-size: 15px;
+        }
+    
+        #result {
+          padding: 25px 15px;
+        }
+    
+        #result h2 {
+          font-size: 1.8rem;
+        }
+    
+        #result p {
+          font-size: 1rem;
         }
       }
     </style>
+    
 </head>
 
 <body>
