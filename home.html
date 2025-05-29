@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Which Suits Character Are You?</title>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 40px 20px;
+        color: #333;
+      }
+
+      h1 {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        letter-spacing: -0.5px;
+      }
+
+      .question-container {
+        display: none;
+        margin: 20px auto;
+        padding: 50px 40px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        max-width: 650px;
+        width: 100%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: slideIn 0.5s ease-out;
+      }
+    
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .question-container.active {
+        display: block;
+      }
+
+      .question-container h2 {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 40px;
+        color: #2c3e50;
+        line-height: 1.4;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 6px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        margin-bottom: 30px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+
+      button {
+        margin: 15px auto;
+        padding: 18px 30px;
+        display: block;
+        width: 100%;
+        max-width: 500px;
+        font-size: 16px;
+        font-weight: 500;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      button:hover::before {
+        left: 100%;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      #result {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 20px;
+        color: white;
+        line-height: 1.6;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      #result h2 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: white;
+        font-weight: 700;
+      }
+
+      #result img {
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      #result img:hover {
+        transform: scale(1.05);
+      }
+
+      #result p {
+        font-size: 1.3rem;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 20px;
+      }
+
+      #quiz {
+        width: 100%;
+        max-width: 700px;
+        padding: 0 10px;
+      }
+
+      .question-number {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* mobile */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .question-container {
+          padding: 30px 25px;
+          margin: 10px;
+        }
+        
+        .question-container h2 {
+          font-size: 1.5rem;
+        }
+        
+        button {
+          padding: 15px 20px;
+          font-size: 15px;
+        }
+      }
+    </style>
+</head>
+
+<body>
+    <h1>Which Suits Character Are You?</h1>
+    <div class="question-number" id="questionNumber"></div>
+
+    <div id="quiz"></div>
+    <div id="result"></div>
+
+    <script>
+        // question bank:
+        const questions = [
+            {
+                text: "How do you prepare for a challenge?",
+                answers: [
+                    { text: "I wing it", character: "harvey" },
+                    { text: "I overprepare and manage every little details", character: "louis" },
+                    { text: "I just trust my instincts and people skills", character: "donna" },
+                    { text: "I do a lot of research and try to learn everything I can", character: "mike" },
+                    { text: "I stay organized and make detailed plans", character: "rachel" },
+                    { text: "I show up in confidence and with authority", character: "jessica" }
+                ]
+            },
+            {
+                text: "What's your biggest strength?",
+                answers: [
+                    { text: "Winning!", character: "harvey" },
+                    { text: "Thinking outside the box", character: "mike" },
+                    { text: "Balancing ambition and empathy", character: "rachel" },
+                    { text: "My unmatched work ethic", character: "louis" },
+                    { text: "Reading people", character: "donna" },
+                    { text: "Leadership and strategy", character: "jessica" }
+                ]
+            },
+            {
+            text: "What's your ideal role in a team?",
+                answers: [
+                    { text: "Team Speaker — I keep everyone in check and talk to the other groups", character: "harvey" },
+                    { text: "Strategist — I plan the moves and connect the dots", character: "mike" },
+                    { text: "Workhorse — I do work even when no on else wants to", character: "louis" },
+                    { text: "Team Glue — I make sure everyone is taken care of and that no detail is missed", character: "donna" },
+                    { text: "Planner — I make sure everything is on schedule and running smoothly", character: "rachel" },
+                    { text: "Team Leader — I set the direction and use my voice to make the hard decisions", character: "jessica" }
+                ]
+            },
+            {
+                text: "What motivates you most?",
+                answers: [
+                    { text: "Legacy and control", character: "jessica" },
+                    { text: "Loyalty and relationships", character: "donna" },
+                    { text: "Winning and recognition", character: "harvey" },
+                    { text: "Morals and doing the right thing", character: "mike" },
+                    { text: "Proving people wrong", character: "louis" },
+                    { text: "Growth and independence", character: "rachel" }
+                ]
+            },
+            {
+                text: "What's your biggest flaw?",
+                answers: [
+                { text: "Arrogance", character: "harvey" },
+                { text: "Secretiveness", character: "donna" },
+                { text: "Overcommitting", character: "rachel" },
+                { text: "Taking shortcuts", character: "mike" },
+                { text: "Insecurity", character: "louis" },
+                { text: "Coldness", character: "jessica" }
+                ]
+            },
+            {
+                text: "How do you handle conflict?",
+                answers: [
+                { text: "Going in with confidence and ready to talk", character: "harvey" },
+                { text: "Staying logical, calm, and level-headed", character: "mike" },
+                { text: "Privately releasing my emotions, then regrouping", character: "louis" },
+                { text: "De-escalating situations by empathizing with my \"enemy\".", character: "donna" },
+                { text: "Staying composed and using clear communication no matter what", character: "rachel" },
+                { text: "Being straight forward and strategic with my words", character: "jessica" }
+                ]
+            },
+            {
+                text: "What's your ideal room vibe?",
+                answers: [
+                    { text: "Clean, minimal, vanilla scent", character: "harvey" },
+                    { text: "Cozy with a lot of books", character: "mike" },
+                    { text: "Very organized with no one really coming in", character: "louis" },
+                    { text: "Very stylish, bold designs", character: "donna" },
+                    { text: "Personal with posters, lavendar scent", character: "rachel" },
+                    { text: "Very modern, tall windows, white sheets", character: "jessica" }
+                ]
+            },
+            {
+                text: "How far would you go for someone you care about?",
+                answers: [
+                    { text: "Risk everything if I believed in them", character: "mike" },
+                    { text: "Do more than they expect — but only tell them after the fact", character: "louis" },
+                    { text: "Protect them no matter what, even if they are unaware", character: "donna" },
+                    { text: "As far as I need to — no questions asked", character: "harvey" },
+                    { text: "Be there through thick and thin, always providing a listening ear", character: "rachel" },
+                    { text: "Help them as much as I could, but never lose sight of my boundaries", character: "jessica" }
+                ]
+            },
+            {
+                text: "How do you make tough decisions?",
+                answers: [
+                    { text: "Go with my gut, making decisions quickly and confidently", character: "harvey" },
+                    { text: "Thinking about what's morally right and trusting myself", character: "mike" },
+                    { text: "Thinking about my past experiences and the outcomes of those", character: "jessica" },
+                    { text: "Analyzing every possible outcome and going with the one that hurts me the least", character: "louis" },
+                    { text: "Considering the emotional dynamics and aiming to preserve relationships", character: "donna" },
+                    { text: "Talking it out with someone I trust", character: "rachel" }            
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        const scores = {
+        harvey: 0,
+        mike: 0,
+        louis: 0,
+        donna: 0,
+        rachel: 0,
+        jessica: 0
+        };
+
+        const quizDiv = document.getElementById('quiz');
+        const resultDiv = document.getElementById('result');
+        const questionNumberDiv = document.getElementById('questionNumber');
+
+        function updateProgress() {
+            const progress = (currentQuestion / questions.length) * 100;
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = progress + '%';
+            }
+        }
+
+        function showQuestion(index) {
+            quizDiv.innerHTML = '';
+            const questionObj = questions[index];
+
+            // Update question number
+            questionNumberDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+
+            const container = document.createElement('div');
+            container.className = 'question-container active';
+
+            // Add progress bar
+            const progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            const progressFill = document.createElement('div');
+            progressFill.className = 'progress-fill';
+            progressFill.style.width = ((index / questions.length) * 100) + '%';
+            progressBar.appendChild(progressFill);
+            container.appendChild(progressBar);
+
+            const title = document.createElement('h2');
+            title.textContent = questionObj.text;
+            container.appendChild(title);
+
+            questionObj.answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.textContent = answer.text;
+                btn.onclick = () => selectAnswer(answer.character);
+                container.appendChild(btn);
+            });
+
+            quizDiv.appendChild(container);
+        }
+
+        // handling answer selection
+        function selectAnswer(character) {
+            scores[character]++;
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+            } else {
+                showResult();
+            }
+        }
+
+        // displaying results
+        function showResult() {
+            quizDiv.innerHTML = '';
+            questionNumberDiv.style.display = 'none';
+            const topCharacter = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+
+            const characterDetails = {
+                harvey: {
+                name: "Harvey Specter",
+                image: "harvey.jpg",
+                quote: "I don't play the odds. I play the man."
+                },
+                mike: {
+                name: "Mike Ross",
+                image: "mike.jpeg",
+                quote: "The law is in my mind."
+                },
+                louis: {
+                name: "Louis Litt",
+                image: "louis.jpg",
+                quote: "You just got Litt up!"
+                },
+                donna: {
+                name: "Donna Paulsen",
+                image: "donna.jpg",
+                quote: "I'm not just a secretary."
+                },
+                rachel: {
+                name: "Rachel Zane",
+                image: "rachel.jpg",
+                quote: "I work twice as hard to be taken seriously."
+                },
+                jessica: {
+                name: "Jessica Pearson",
+                image: "jessica.jpg",
+                quote: "Because I'm Jessica damn Pearson."
+                }
+            };
+
+            const character = characterDetails[topCharacter];
+
+            resultDiv.innerHTML = `
+                <h2>You're ${character.name}!</h2>
+                <img src="${character.image}" alt="${character.name}" style="max-width: 300px; width: 100%; border-radius: 15px; margin-top: 20px;">
+                <p style="margin-top: 20px; font-style: italic;">\"${character.quote}\"</p>
+            `;
+                resultDiv.style.display = 'block';
+        }
+
+        function capitalize(word) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+
+        // starting the quiz
+        showQuestion(currentQuestion);
+    </script>
+
+</body>
+</html>
